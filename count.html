@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <style>
+    /* CSS for styling */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .countdown-container {
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    #timer {
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    #timer span {
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="datetime-local"] {
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="countdown-container">
+    <h1>Countdown Timer</h1>
+    <div id="timer">
+      <span id="days">00</span> Days
+      <span id="hours">00</span> Hours
+      <span id="minutes">00</span> Minutes
+      <span id="seconds">00</span> Seconds
+    </div>
+    <input type="datetime-local" id="datetime-picker">
+    <button onclick="startCountdown()">Start Countdown</button>
+  </div>
+  <script>
+    // JavaScript for countdown logic
+    function startCountdown() {
+      const input = document.getElementById('datetime-picker').value;
+      if (!input) {
+        alert('Please select a date and time.');
+        return;
+      }
+
+      const targetDate = new Date(input).getTime();
+
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const difference = targetDate - now;
+
+        if (difference <= 0) {
+          clearInterval(interval);
+          document.getElementById('timer').innerHTML = 'Countdown Over!';
+          return;
+        }
+
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
